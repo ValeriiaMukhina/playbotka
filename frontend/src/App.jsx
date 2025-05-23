@@ -3,12 +3,18 @@ import logo from "./assets/playbotka-logo.png";
 
 const MATERIALS = {
   indoor: [
+    { name: "paper", icon: "📄" },
     { name: "cardboard", icon: "📦" },
     { name: "glue", icon: "🩴" },
     { name: "scissors", icon: "✂️" },
     { name: "buttons", icon: "🔘" },
     { name: "pencils", icon: "✏️" },
+    { name: "crayons", icon: "🖍️" },
+    { name: "markers", icon: "🖊️" },
     { name: "cups", icon: "🥤" },
+    { name: "tape", icon: "📎" },
+    { name: "fabric scraps", icon: "🧵" },
+    { name: "string", icon: "🧶" }
   ],
   outdoor: [
     { name: "leaves", icon: "🍃" },
@@ -17,6 +23,10 @@ const MATERIALS = {
     { name: "pinecones", icon: "🌰" },
     { name: "flowers", icon: "🌸" },
     { name: "chalk", icon: "🖍️" },
+    { name: "sand", icon: "🏖️" },
+    { name: "water", icon: "💧" },
+    { name: "acorns", icon: "🌰" },
+    { name: "grass", icon: "🌿" }
   ],
 };
 

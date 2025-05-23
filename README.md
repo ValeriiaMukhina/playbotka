@@ -10,6 +10,22 @@
 - 🚀 FastAPI backend with OpenAI integration
 - 🔁 Follow-up questions and regenerate ideas
 
+## 🤖 Why PlayBotka is Agentic
+
+PlayBotka is more than a chatbot — it’s an **agentic AI assistant** that takes initiative to help parents create meaningful moments with their children. It behaves like an intelligent helper, not just a responder.
+
+### ✅ Agentic Qualities
+
+| Feature                          | Description |
+|----------------------------------|-------------|
+| 🎯 **Goal-directed behavior**     | Always works toward suggesting the most suitable creative activity for a given situation |
+| 🧠 **Context-aware questioning**  | Asks clarifying follow-up questions if user input is incomplete or vague |
+| ⚖️ **Constraint-based decisions** | Balances materials, time, energy level, and messiness to craft tailored suggestions |
+| 📋 **Structured output**         | Returns well-formatted ideas (title, steps, materials, time, mess level) that frontend can render cleanly |
+| 🔁 **Multi-turn interaction**     | Guides users over multiple steps to refine and personalize the activity |
+
+This makes PlayBotka a **true assistant** — not just a prompt-to-text tool.
+
 ---
 
 ## 🗂️ Project Structure

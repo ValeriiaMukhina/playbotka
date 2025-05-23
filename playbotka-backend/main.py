@@ -28,6 +28,10 @@ class Message(BaseModel):
 class ConversationRequest(BaseModel):
     messages: List[Message]
 
+@app.get("/")
+def root():
+    return {"message": "PlayBotka backend is live!"}
+
 @app.post("/ask")
 async def ask(convo: ConversationRequest):
     try:

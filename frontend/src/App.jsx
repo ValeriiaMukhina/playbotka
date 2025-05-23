@@ -1,5 +1,6 @@
 import { useState } from "react";
 import logo from "./assets/playbotka-logo.png";
+import GenerateImageButton from "./GenerateImageButton";
 
 const MATERIALS = {
   indoor: [
@@ -243,6 +244,8 @@ function App() {
               <strong>🧠 Why it’s great:</strong> {idea.why}
             </div>
           )}
+
+          <GenerateImageButton idea={idea} />
 
           <button
             onClick={() => {

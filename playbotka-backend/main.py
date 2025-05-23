@@ -8,6 +8,7 @@ from openai import OpenAI
 import re
 from pathlib import Path  
 
+
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -78,5 +79,22 @@ async def ask(convo: ConversationRequest):
         }
 
         return {"reply": result}
+    except Exception as e:
+        return {"error": str(e)}
+    
+class ImageRequest(BaseModel):
+    prompt: str
+
+@app.post("/generate-image")
+async def generate_image(req: ImageRequest):
+    try:
+        response = client.images.generate(
+            model="dall-e-2",  # Use "dall-e-2" for cheaper option
+            prompt=req.prompt,
+            size="512x512",
+            n=1
+        )
+        image_url = response.data[0].url
+        return {"url": image_url}
     except Exception as e:
         return {"error": str(e)}

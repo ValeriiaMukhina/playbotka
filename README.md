@@ -2,6 +2,9 @@
 
 **PlayBotka** is a friendly AI assistant that helps parents find fun, creative, and age-appropriate activities to do with their children using simple materials — at home or outside.
 
+🔗 **Live demo:** [https://playbotka-1.onrender.com/](https://playbotka-1.onrender.com/)
+
+
 ## ✨ Features
 
 - 🤖 Agentic AI assistant using OpenAI's GPT
@@ -9,6 +12,11 @@
 - 🎨 Tailwind + React frontend
 - 🚀 FastAPI backend with OpenAI integration
 - 🔁 Follow-up questions and regenerate ideas
+- 🖼️ **Image generation for each activity using DALL·E**
+  - Click “🖼️ Generate Illustration” to see a visual of the activity’s final result
+  - Efficient on-demand generation to minimize cost
+  - Friendly cartoon-style images styled like a children’s book
+
 
 ## 🤖 Why PlayBotka is Agentic
 

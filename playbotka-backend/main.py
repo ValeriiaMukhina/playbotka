@@ -6,10 +6,15 @@ import os
 from dotenv import load_dotenv
 from openai import OpenAI
 import re
+from pathlib import Path  
 
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+# === Load system prompt from file ===
+PROMPT_PATH = Path(__file__).parent / "prompt.txt"
+with open(PROMPT_PATH, encoding="utf-8") as f:
+    SYSTEM_PROMPT_TEXT = f.read()
 
 app = FastAPI()
 
@@ -37,32 +42,7 @@ async def ask(convo: ConversationRequest):
     try:
         system_prompt = {
             "role": "system",
-            "content": (
-                "You are PlayBotka, a kind and creative assistant that helps parents create engaging and age-appropriate activities "
-                "for their children using simple materials and their current environment (e.g. indoor or outdoor). "
-                "\n\n"
-                "Your goal is to guide the parent toward a delightful, personalized activity. "
-                "You are encouraged to ask one or two short, helpful follow-up questions to better understand the context — "
-                "even if the parent has already provided basic info."
-                "\n\n"
-                "Be specific in your questions. For example:\n"
-                "- 'Is your child able to use scissors safely?'\n"
-                "- 'Would you prefer a quiet or energetic activity?'\n"
-                "- 'Do you mind if things get a little messy?'\n"
-                "\n"
-                "After receiving answers, suggest one activity idea using this exact format:\n"
-                "\n"
-                "**Here is an activity:**\n"
-                "**Title:** [short title]\n"
-                "**Materials:** [comma-separated list]\n"
-                "**Steps:**\n"
-                "1. [first step]\n"
-                "2. [next step] ...\n"
-                "**Time needed:** [minutes]\n"
-                "**Mess level:** [clean / moderate / anything goes]\n"
-                "\n"
-                "Be warm, clear, and encouraging — your audience is a loving parent looking to enjoy quality time with their child."
-            )
+            "content": SYSTEM_PROMPT_TEXT
         }
 
         messages = [system_prompt] + [msg.dict() for msg in convo.messages]
@@ -71,22 +51,20 @@ async def ask(convo: ConversationRequest):
             model="gpt-3.5-turbo",
             messages=messages,
             temperature=0.7,
-            max_tokens=700,
+            max_tokens=900,
         )
 
         reply = response.choices[0].message.content
 
-        # Try to extract structured content
         def extract_block(tag, text):
-            match = re.search(rf"\*\*{tag}:\*\* (.+?)\n", text)
+            match = re.search(rf"\*\*{tag}:\*\*\s*(.+)", text, re.IGNORECASE)
             return match.group(1).strip() if match else ""
 
         def extract_steps(text):
-            steps_block = re.findall(r"\*\*Steps:\*\*[\r\n]+(.*?)\n\*\*", text, re.DOTALL)
-            if not steps_block:
-                steps_block = re.findall(r"\*\*Steps:\*\*[\r\n]+(.*)", text, re.DOTALL)
-            if steps_block:
-                return [line.strip() for line in steps_block[0].split("\n") if line.strip().startswith("1") or line.strip().startswith("2") or line.strip().startswith("3")]
+            match = re.search(r"\*\*Steps:\*\*([\s\S]+?)(?:\n\*\*|$)", text)
+            if match:
+                lines = match.group(1).strip().splitlines()
+                return [line.strip() for line in lines if re.match(r"^\d+[\.\)]\s", line)]
             return []
 
         result = {
@@ -95,6 +73,7 @@ async def ask(convo: ConversationRequest):
             "steps": extract_steps(reply),
             "time": extract_block("Time needed", reply),
             "messLevel": extract_block("Mess level", reply),
+            "why": extract_block("Why it’s great", reply),
             "raw": reply
         }
 

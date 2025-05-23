@@ -219,6 +219,11 @@ function App() {
               </ol>
             </div>
           )}
+          {idea.why && (
+            <p>
+              <strong>Why it’s great:</strong> {idea.why}
+            </p>
+          )}
           <button
             onClick={() => {
             setIdea(null);

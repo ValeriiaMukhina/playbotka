@@ -204,34 +204,54 @@ function App() {
       {isLoading && <p className="mt-4 text-sm text-gray-500 italic">Thinking...</p>}
 
       {idea && (
-        <div className="mt-8 bg-yellow-100 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded-xl max-w-md shadow space-y-2">
-          <p className="font-semibold text-lg">💡 {idea.title || "Activity Idea"}</p>
-          {idea.materials && <p><strong>Materials:</strong> {idea.materials}</p>}
-          {idea.time && <p><strong>Time needed:</strong> {idea.time}</p>}
-          {idea.messLevel && <p><strong>Mess level:</strong> {idea.messLevel}</p>}
+                <div className="mt-10 max-w-md w-full relative bg-yellow-50 border-2 border-yellow-200 p-6 rounded-2xl shadow-lg font-sans space-y-3 transition-all duration-300 ease-in-out hover:shadow-xl">
+          <div className="absolute top-2 right-3 text-2xl">💡</div>
+          
+          <p className="text-2xl font-bold text-yellow-800">{idea.title || "Activity Idea"}</p>
+
+          {idea.materials && (
+            <p className="text-sm text-gray-800">
+              <strong>🧶 Materials:</strong> {idea.materials}
+            </p>
+          )}
+
+          {idea.time && (
+            <p className="text-sm text-gray-800">
+              <strong>⏱️ Time needed:</strong> {idea.time}
+            </p>
+          )}
+
+          {idea.messLevel && (
+            <p className="text-sm text-gray-800">
+              <strong>🧼 Mess level:</strong> {idea.messLevel}
+            </p>
+          )}
+
           {idea.steps && idea.steps.length > 0 && (
             <div>
-              <strong>Steps:</strong>
-              <ol className="list-decimal list-inside">
+              <strong className="text-sm text-gray-800">📝 Steps:</strong>
+              <ol className="list-decimal list-inside text-sm mt-1 text-gray-700">
                 {idea.steps.map((step, idx) => (
                   <li key={idx}>{step.replace(/^\d+\.\s*/, '')}</li>
                 ))}
               </ol>
             </div>
           )}
+
           {idea.why && (
-            <p>
-              <strong>Why it’s great:</strong> {idea.why}
-            </p>
+            <div className="bg-blue-100 border border-blue-200 text-blue-800 font-hand  p-3 rounded-xl mt-3 text-sm">
+              <strong>🧠 Why it’s great:</strong> {idea.why}
+            </div>
           )}
+
           <button
             onClick={() => {
-            setIdea(null);
-            fetchNextStep(conversation);
-          }}
-            className="mt-4 bg-orange-300 hover:bg-orange-400 text-white px-4 py-2 rounded-full font-bold"
+              setIdea(null);
+              fetchNextStep(conversation);
+            }}
+            className="mt-4 bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded-full font-bold shadow-sm transition"
           >
-            🔁 Regenerate Idea
+            🔁 Try Another Idea
           </button>
         </div>
       )}

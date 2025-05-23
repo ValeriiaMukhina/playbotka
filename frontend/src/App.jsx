@@ -1,6 +1,5 @@
 import { useState } from "react";
 import logo from "./assets/playbotka-logo.png";
-import { API_URL } from './config';
 
 const MATERIALS = {
   indoor: [
@@ -73,7 +72,7 @@ function App() {
   const fetchNextStep = async (messages) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${API_URL}/ask`, {
+      const response = await fetch("http://localhost:8000/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages }),
@@ -81,9 +80,16 @@ function App() {
       const data = await response.json();
       const reply = data.reply;
 
-      if (typeof reply === "object" && reply !== null && reply.title) {
+      if (
+        typeof reply === "object" &&
+        reply !== null &&
+        (reply.title || (reply.steps && reply.steps.length))
+      ) {
         setIdea(reply);
         setQuestion("");
+      } else if (typeof reply === "object" && reply.raw) {
+        setQuestion(reply.raw);
+        setConversation([...messages, { role: "assistant", content: reply.raw }]);
       } else if (typeof reply === "string") {
         setQuestion(reply);
         setConversation([...messages, { role: "assistant", content: reply }]);
